@@ -1,4 +1,4 @@
-# nni pipeline automation tool
+# nni pipeline automation wrapper
 
 This tool is a collection of scripts and rules designed to generate an experiment config file and search space and start the model hyperparameter search. Once complete, it outputs the investigated hyperparameter combinations and their final scoring metric for ease of acquisition. 
 
