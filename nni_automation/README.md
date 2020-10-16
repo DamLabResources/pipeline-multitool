@@ -92,5 +92,6 @@ NNI_MODEL_PARAMS:
 
 ## TODO
 * Incorperate unit testing for wrapper scripts
+* Add descriptions for individual classes/functions
 * Specify nni logDir. When attempting to do this, it throws errors when generating nni experiment. 
 * Have model-specific parameters overwrite common parameters
