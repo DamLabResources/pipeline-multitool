@@ -2,21 +2,33 @@
 
 This tool is a collection of scripts and rules designed to generate an experiment config file and search space and start the model hyperparameter search. Once complete, it outputs the investigated hyperparameter combinations and their final scoring metric for ease of acquisition. 
 
+Wrapper application example:
+```
+MODELS = config["NNI_MODEL_PARAMS"].keys()
+
+rule optimize_hypperparameters:
+    output:
+        experiment   = expand("nni/{model}_experiments.yaml", 
+                               model = MODELS),
+                                
+        search_space = expand("nni/search_space/{model}_search_space.json",
+                               model = MODELS),
+                               
+        experiment_results = expand("nni/experiment_results/{model}.csv", 
+                                    model = MODELS)
+    wrapper:
+        "pipeline-multitool/nni_automation"
+```
+
 All created files are stored in a generated directory called ```nni```, which has the following tree structure:
 ```
 nni/
 ├── experiment_results
 │   └── <Model>.csv
 ├── <Model>_experiments.yaml
-├── Search_space
-│   └── <Model>_search_space.json
-└── Train_scripts
-    └── <Model>.py
+└── search_space
+    └── <Model>_search_space.json
 ```
-
-To exemplify this, an end-to-end snakemake pipeline is included that optimzes the hyperparameters for XGBoost and RandomForest models on the diabetes dataset and exports the data to their corresponding csvs. To run, type the following:
-
-```$ snakemake --use-conda --cores 4```
 
 ## Snakemake config organization
 
@@ -24,11 +36,9 @@ Search space and experiment config files are generated based on the following en
 
 1. NNI_PORT
     * The port assigned to all nni expiments
-2. MODELS
-    * The list of model names used for each experiment
-3. COMMON_NNI_EXPERIMENT_CONFIG_ARGS
+2. COMMON_NNI_EXPERIMENT_CONFIG_ARGS
     * Parameters shared by all experimental config files
-4. NNI_MODEL_PARAMS
+3. NNI_MODEL_PARAMS
     * Model-specific parameters used in the experiment config and the model's search space.
     * Organized by creating subsections in NNI_MODEL_PARAMS that correspond with the models listed in MODELS
     * Each model subsection has two sub sections: search_space and experimental_config. The former specifies the search space you want investigated and the latter specifying parameters that are specific to that model (e.g. training script location, experiment name)
@@ -38,8 +48,6 @@ Here's an example of how it should be formatted:
 ```
 NNI_PORT: 9999
 
-MODELS: ["XGBoost","RandomForest"]
-
 COMMON_NNI_EXPERIMENT_CONFIG_ARGS:
     authorName: Bobby Link
     trialConcurrency: 3
@@ -47,7 +55,7 @@ COMMON_NNI_EXPERIMENT_CONFIG_ARGS:
     maxTrialNum: 10
     trainingServicePlatform: local
     useAnnotation: false
-
+    
     assessor:
         builtinAssessorName: Medianstop
         classArgs:
@@ -57,7 +65,7 @@ COMMON_NNI_EXPERIMENT_CONFIG_ARGS:
       classArgs:
           optimize_mode: minimize
     trial:
-        codeDir: .
+        codeDir: ../Train_scripts
         
 NNI_MODEL_PARAMS:
     XGBoost:
@@ -66,10 +74,10 @@ NNI_MODEL_PARAMS:
             n_estimators: [choice, [111, 222, 333]]
             
         experiment_config:
-            searchSpacePath: Search_space/XGBoost_search_space.json
+            searchSpacePath: search_space/XGBoost_search_space.json
             experimentName: XGB_hyperparam_opt
             trial:
-                command: python3 Scripts/Train_scripts/xgb_opt.py
+                command: python3 xgb_opt.py
                 
     RandomForest:
         search_space:
@@ -77,17 +85,13 @@ NNI_MODEL_PARAMS:
             max_depth: [choice, [4,5,6]]
             
         experiment_config:
-            searchSpacePath: Search_space/RandomForest_search_space.json
+            searchSpacePath: search_space/RandomForest_search_space.json
             experimentName: RandomForest_hyperparam_opt
             trial:
-                command: python3 Scripts/Train_scripts/xgb_opt.py
+                command: python3 rf_opt.py
 ```
 
-## Prerequisites:
-
-* In the snakemake directory, put your training scripts in a directory called ```nni```. Once there, you can put them in any subdirectory of your choice. In this example, they are in a directory called ```Train_scripts```
-
 ## TODO:
-* Circumvent the above prerequisite by generating an explicit path to training script location
-* Output a complete xml of data to a location of the user's choice. The issue is that it needs to be created first, and snakemake is giving issues
+* Incorperate unit testing for model
+* Specify nni logDir. When attempting to do this, it throws errors when generating nni experiment. 
 * Have model-specific parameters overwrite common parameters
