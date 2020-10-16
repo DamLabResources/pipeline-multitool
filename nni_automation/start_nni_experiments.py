@@ -88,7 +88,7 @@ def run_experiments(hyperparameter_exporter, snk_output, port):
     
 if __name__ == '__main__':
     
-    PORT = snakemake.config["NNI_PORT"][0]
+    PORT = snakemake.config["NNI_PORT"]
     
     exporter = HyperParameterExporter()
     
