@@ -69,7 +69,6 @@ COMMON_NNI_EXPERIMENT_CONFIG_ARGS:
         
 NNI_MODEL_PARAMS:
     XGBoost:
-
         search_space:
             n_estimators: [choice, [111, 222, 333]]
             
