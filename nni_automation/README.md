@@ -17,7 +17,7 @@ rule optimize_hypperparameters:
         experiment_results = expand("nni/experiment_results/{model}.csv", 
                                     model = MODELS)
     wrapper:
-        "pipeline-multitool/nni_automation"
+        "pipeline-multitool/tree/main/nni_automation"
 ```
 
 All created files are stored in a generated directory called ```nni```, which has the following tree structure:
