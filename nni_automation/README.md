@@ -91,6 +91,7 @@ NNI_MODEL_PARAMS:
 ```
 
 ## TODO
+* Find out why the conda env fails to install locally
 * Incorperate unit testing for wrapper scripts
 * Add descriptions for individual classes/functions
 * Specify nni logDir. When attempting to do this, it throws errors when generating nni experiment. 
