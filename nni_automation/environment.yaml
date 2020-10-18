@@ -18,7 +18,7 @@ dependencies:
         - scipy
         - xgboost
         - torch
-        - fastai==1.0.61
+        - fastai
         - tensorflow
         - theano
         - keras
