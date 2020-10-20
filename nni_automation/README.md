@@ -6,7 +6,7 @@ Wrapper application example:
 ```
 MODELS = config["NNI_MODEL_PARAMS"].keys()
 
-rule optimize_hypperparameters:
+rule optimize_hyperparameters:
     output:
         experiment   = expand("nni/{model}_experiments.yaml", 
                                model = MODELS),
