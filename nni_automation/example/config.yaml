@@ -1,0 +1,45 @@
+NNI_PORT: 9999
+
+COMMON_NNI_EXPERIMENT_CONFIG_ARGS:
+    authorName: Bobby Link
+    trialConcurrency: 3
+    maxExecDuration: 5m
+    maxTrialNum: 10
+    trainingServicePlatform: local
+    useAnnotation: false
+    
+    assessor:
+        builtinAssessorName: Medianstop
+        classArgs:
+          optimize_mode: minimize
+    tuner:
+      builtinTunerName: TPE
+      classArgs:
+          optimize_mode: minimize
+    trial:
+        codeDir: ../Train_scripts
+        
+NNI_MODEL_PARAMS:
+    XGBoost:
+
+        search_space:
+            n_estimators: [choice, [111, 222, 333]]
+            
+        experiment_config:
+            searchSpacePath: search_space/XGBoost_search_space.json
+            experimentName: XGB_hyperparam_opt
+            trial:
+                command: python3 xgb_opt.py
+                
+    RandomForest:
+        search_space:
+            n_estimators: [choice, [100, 200, 300]]
+            max_depth: [choice, [4,5,6]]
+            
+        experiment_config:
+            searchSpacePath: search_space/RandomForest_search_space.json
+            experimentName: RandomForest_hyperparam_opt
+            trial:
+                command: python3 rf_opt.py
+
+            

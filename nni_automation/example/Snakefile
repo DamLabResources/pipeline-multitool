@@ -1,0 +1,16 @@
+configfile: "config.yaml"
+
+MODELS = config["NNI_MODEL_PARAMS"].keys()
+
+rule optimize_hypperparameters:
+    output:
+        experiment   = expand("nni/{model}_experiments.yaml", 
+                               model = MODELS),
+                                
+        search_space = expand("nni/search_space/{model}_search_space.json",
+                               model = MODELS),
+                               
+        experiment_results = expand("nni/experiment_results/{model}.csv", 
+                                    model = MODELS)
+    wrapper:
+        "file:nni_automation"
