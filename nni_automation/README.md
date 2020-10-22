@@ -90,9 +90,11 @@ NNI_MODEL_PARAMS:
                 command: python3 rf_opt.py
 ```
 
+## BUGS
+* Conda env fails to install remotley on GitHub. Works when installed locally
+* Specifying an nni logDir throws an error when generating experiment. 
+
 ## TODO
-* Find out why the conda env fails to install locally
 * Incorperate unit testing for wrapper scripts
 * Add descriptions for individual classes/functions
-* Specify nni logDir. When attempting to do this, it throws errors when generating nni experiment. 
 * Have model-specific parameters overwrite common parameters
