@@ -1,6 +1,23 @@
+name: nni_training_env
 channels:
   - conda-forge
   - rapidsai
   - defaults
 dependencies:
+  - cudatoolkit=10.2
+  - python=3.7
   - rapids
+  - pip:
+    - snakemake
+    - deepmerge
+    - nni
+    - matplotlib
+    - scikit-learn 
+    - pandas
+    - scipy
+    - xgboost
+    - torch
+    - fastai==1.0.61
+    - tensorflow
+    - theano
+    - keras
