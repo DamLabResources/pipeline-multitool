@@ -1,5 +1,6 @@
 channels:
   - conda-forge
+  - rapidsai
   - defaults
 dependencies:
-  - pip
+  - rapids
