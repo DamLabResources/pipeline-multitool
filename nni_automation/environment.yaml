@@ -1,4 +1,3 @@
-name: nni_training_env
 channels:
   - conda-forge
   - rapidsai
