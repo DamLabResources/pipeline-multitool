@@ -2,7 +2,6 @@ name: nni_training_env
 channels:
   - conda-forge
   - rapidsai
-  - anaconda
   - defaults
 dependencies:
   - python=3.8
