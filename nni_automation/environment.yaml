@@ -4,7 +4,6 @@ channels:
   - rapidsai
   - anaconda
 dependencies:
-  - cudatoolkit=10.2
   - python=3.8
   - rapids
   - pip
